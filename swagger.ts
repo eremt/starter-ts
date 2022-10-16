@@ -8,7 +8,10 @@ const options = {
       version: '0.0.1'
     }
   },
-  apis: ['./src/**/*.controller.ts']
+  apis: [
+    './src/**/*.controller.ts',
+    './src/utils/responses.ts'
+  ]
 }
 
 export default swaggerJsdoc(options)

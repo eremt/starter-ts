@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import { notFound, internalServerError } from '../utils/responses'
 import ExampleService from './example.service'
 
 /**
@@ -45,6 +46,8 @@ export default class ExampleController {
    *           application/json:
    *             schema:
    *               $ref: '#/components/exampleResponse'
+   *       500:
+   *         $ref: '#/components/internalServerError'
    */
   static async create (req: Request, res: Response) {
     try {
@@ -53,7 +56,7 @@ export default class ExampleController {
 
       res.json(example)
     } catch (e) {
-      console.log(e)
+      internalServerError(e, req, res)
     }
   }
 
@@ -77,17 +80,24 @@ export default class ExampleController {
    *           application/json:
    *             schema:
    *               $ref: '#/components/exampleResponse'
+   *       404:
+   *         $ref: '#/components/notFound'
+   *       500:
+   *         $ref: '#/components/internalServerError'
    */
   static async getOne (req: Request, res: Response) {
     try {
       const { id } = req.params
       const example = await ExampleService.getOne(id)
 
-      if (!example) return res.status(404).json({ status: 404, message: `Example ${id} not found.` })
+      if (!example){
+        const error = notFound(`Example ${id}`)
+        return res.status(error.code).json(error)
+      }
 
       res.json(example)
     } catch (e) {
-      console.log(e)
+      internalServerError(e, req, res)
     }
   }
 
@@ -104,6 +114,8 @@ export default class ExampleController {
    *           application/json:
    *             schema:
    *               $ref: '#/components/examplesResponse'
+   *       500:
+   *         $ref: '#/components/internalServerError'
    */
   static async getAll (req: Request, res: Response) {
     try {
@@ -111,7 +123,7 @@ export default class ExampleController {
 
       res.json(examples)
     } catch (e) {
-      console.log(e)
+      internalServerError(e, req, res)
     }
   }
 
@@ -140,6 +152,10 @@ export default class ExampleController {
    *           application/json:
    *             schema:
    *               $ref: '#/components/exampleResponse'
+   *       404:
+   *         $ref: '#/components/notFound'
+   *       500:
+   *         $ref: '#/components/internalServerError'
    */
   static async update (req: Request, res: Response) {
     try {
@@ -147,11 +163,14 @@ export default class ExampleController {
       const { value } = req.body
       const example = await ExampleService.update(id, { value })
 
-      if (!example) return res.status(404).json({ status: 404, message: `Example ${id} not found.` })
+      if (!example){
+        const error = notFound(`Example ${id}`)
+        return res.status(error.code).json(error)
+      }
 
       res.json(example)
     } catch (e) {
-      console.log(e)
+      internalServerError(e, req, res)
     }
   }
 
@@ -171,17 +190,24 @@ export default class ExampleController {
    *     responses:
    *       204:
    *         description: Successful request
+   *       404:
+   *         $ref: '#/components/notFound'
+   *       500:
+   *         $ref: '#/components/internalServerError'
    */
   static async delete (req: Request, res: Response) {
     try {
       const { id } = req.params
       const result = await ExampleService.delete(id)
 
-      if (!result) return res.status(404).json({ status: 404, message: `Example ${id} not found.` })
+      if (!result){
+        const error = notFound(`Example ${id}`)
+        return res.status(error.code).json(error)
+      }
 
       res.status(204).end()
     } catch (e) {
-      console.log(e)
+      internalServerError(e, req, res)
     }
   }
 }
