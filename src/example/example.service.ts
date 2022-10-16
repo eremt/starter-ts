@@ -1,26 +1,34 @@
+import { randomUUID } from 'crypto'
+
 interface Example {
-  id?: number
+  id?: string
   value: string
 }
+interface Examples {
+  [key: string]: Example
+}
 
-const examples: Example[] = []
+const examples: Examples = {}
 
 export default class ExampleService {
   static async create (example: Example) {
     try {
-      const ex = { id: examples.length, ...example }
-      examples.push(ex)
-      return example
+      const id = randomUUID()
+      const result = { id, ...example }
+      examples[id] = result
+
+      return result
     } catch (e) {
       console.log(e)
     }
   }
 
-  static async getOne (id: number) {
+  static async getOne (id: string) {
     try {
-      const index = examples.findIndex(e => e.id === id)
+      const result = { ...examples[id] }
+      if (!Object.keys(result).length) return null
 
-      return examples[index]
+      return result
     } catch (e) {
       console.log(e)
     }
@@ -28,32 +36,33 @@ export default class ExampleService {
 
   static async getAll () {
     try {
-      return examples
+      const result = Object.values(examples)
+      return result
     } catch (e) {
       console.log(e)
     }
   }
 
-  static async update (id:number, example: Example) {
+  static async update (id: string, example: Example) {
     try {
-      const index = examples.findIndex(e => e.id === id)
-      if (!examples[index]) return null
+      const result = { ...examples[id] }
+      if (!Object.keys(result).length) return null
 
-      const updated = { ...examples[index], ...example }
-      examples[index] = updated
+      const updated = { ...result, ...example }
+      examples[id] = { ...updated }
 
-      return examples[index]
+      return updated
     } catch (e) {
       console.log(e)
     }
   }
 
-  static async delete (id: number) {
+  static async delete (id: string) {
     try {
-      const index = examples.findIndex(e => e.id === id)
-      if (!examples[index]) return null
+      const result = { ...examples[id] }
+      if (!Object.keys(result).length) return null
 
-      examples.splice(index, 1)
+      delete examples[id]
       return true
     } catch (e) {
       console.log(e)
