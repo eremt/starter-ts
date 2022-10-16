@@ -4,6 +4,9 @@ const app = express()
 import bodyParser from 'body-parser'
 app.use(bodyParser.json())
 
+import { logRequests } from './logger'
+app.use(logRequests())
+
 import router from './routes'
 app.use(router)
 

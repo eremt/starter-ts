@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import { logError } from '../logger'
 
 interface ResponseError {
   code: number
@@ -45,6 +46,6 @@ export const INTERAL_SERVER_ERROR: ResponseError = {
   message: "internal server error."
 }
 export function internalServerError (error: Error, req: Request, res: Response) {
-  console.error(error.stack)
+  logError(error)
   res.status(INTERAL_SERVER_ERROR.code).json(INTERAL_SERVER_ERROR)
 }
