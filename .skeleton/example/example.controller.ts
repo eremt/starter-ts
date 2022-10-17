@@ -32,8 +32,8 @@ export default class ExampleController {
    * @openapi
    * /examples:
    *   post:
-   *     tags: ['/example']
-   *     description: Create example
+   *     tags: ['examples']
+   *     summary: Create example
    *     requestBody:
    *       content:
    *         application/json:
@@ -65,8 +65,8 @@ export default class ExampleController {
    * @openapi
    * /examples/{id}:
    *   get:
-   *     tags: ['/example']
-   *     description: Get example by id
+   *     tags: ['examples']
+   *     summary: Get example by id
    *     parameters:
    *       - in: path
    *         name: id
@@ -107,8 +107,8 @@ export default class ExampleController {
    * @openapi
    * /examples:
    *   get:
-   *     tags: ['/example']
-   *     description: Get all examples
+   *     tags: ['examples']
+   *     summary: Get all examples
    *
    *     responses:
    *       200:
@@ -134,8 +134,8 @@ export default class ExampleController {
    * @openapi
    * /examples/{id}:
    *   put:
-   *     tags: ['/example']
-   *     description: Update example
+   *     tags: ['examples']
+   *     summary: Update example
    *     parameters:
    *       - in: path
    *         name: id
@@ -182,8 +182,8 @@ export default class ExampleController {
    * @openapi
    * /examples/{id}:
    *   delete:
-   *     tags: ['/example']
-   *     description: Delete example
+   *     tags: ['examples']
+   *     summary: Delete example
    *     parameters:
    *       - in: path
    *         name: id
