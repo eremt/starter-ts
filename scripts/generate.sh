@@ -31,9 +31,9 @@ echo
 
 # shellcheck disable=2045
 for FILE in $(ls "$DIR"); do
-  echo Replace instances of Example/example in "$DIR/$FILE"
-  sed -i "s|example|$NAME|g" "$DIR/$FILE"
-  sed -i "s|Example|$NAME_CAPITALIZED|g" "$DIR/$FILE"
+  echo Replace instances of Skeleton/skeleton in "$DIR/$FILE"
+  sed -i "s|skeleton|$NAME|g" "$DIR/$FILE"
+  sed -i "s|Skeleton|$NAME_CAPITALIZED|g" "$DIR/$FILE"
 done
 echo
 

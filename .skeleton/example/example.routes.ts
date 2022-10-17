@@ -1,14 +1,14 @@
 import { Router } from 'express'
 const router = Router()
-import ExampleController from './example.controller'
+import SkeletonController from './skeleton.controller'
 
-router.post('/', ExampleController.create)
+router.post('/', SkeletonController.create)
 
-router.get('/', ExampleController.getAll)
-router.get('/:id', ExampleController.getOne)
+router.get('/', SkeletonController.getAll)
+router.get('/:id', SkeletonController.getOne)
 
-router.put('/:id', ExampleController.update)
+router.put('/:id', SkeletonController.update)
 
-router.delete('/:id', ExampleController.delete)
+router.delete('/:id', SkeletonController.delete)
 
 export default router

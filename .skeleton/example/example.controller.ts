@@ -1,18 +1,18 @@
 import { Request, Response } from 'express'
 import { notFound, internalServerError } from '../utils/responses'
-import ExampleService from './example.service'
+import SkeletonService from './skeleton.service'
 
 /**
  * @openapi
  * components:
- *   exampleRequest:
+ *   skeletonRequest:
  *     type: object
  *     properties:
  *       value:
  *         type: string
  *         example: An example
  *
- *   exampleResponse:
+ *   skeletonResponse:
  *     type: object
  *     properties:
  *       id:
@@ -22,23 +22,23 @@ import ExampleService from './example.service'
  *         type: string
  *         example: An example
  *
- *   examplesResponse:
+ *   skeletonsResponse:
  *     type: array
  *     items:
- *       $ref: '#/components/exampleResponse'
+ *       $ref: '#/components/skeletonResponse'
  */
-export default class ExampleController {
+export default class SkeletonController {
   /**
    * @openapi
-   * /examples:
+   * /skeletons:
    *   post:
-   *     tags: ['examples']
-   *     summary: Create example
+   *     tags: ['skeletons']
+   *     summary: Create skeleton
    *     requestBody:
    *       content:
    *         application/json:
    *           schema:
-   *             $ref: '#/components/exampleRequest'
+   *             $ref: '#/components/skeletonRequest'
    *
    *     responses:
    *       200:
@@ -46,16 +46,16 @@ export default class ExampleController {
    *         content:
    *           application/json:
    *             schema:
-   *               $ref: '#/components/exampleResponse'
+   *               $ref: '#/components/skeletonResponse'
    *       500:
    *         $ref: '#/components/internalServerError'
    */
   static async create (req: Request, res: Response) {
     try {
       const { value } = req.body
-      const example = await ExampleService.create({ value })
+      const skeleton = await SkeletonService.create({ value })
 
-      res.json(example)
+      res.json(skeleton)
     } catch (e) {
       internalServerError(e, req, res)
     }
@@ -63,10 +63,10 @@ export default class ExampleController {
 
   /**
    * @openapi
-   * /examples/{id}:
+   * /skeletons/{id}:
    *   get:
-   *     tags: ['examples']
-   *     summary: Get example by id
+   *     tags: ['skeletons']
+   *     summary: Get skeleton by id
    *     parameters:
    *       - in: path
    *         name: id
@@ -81,7 +81,7 @@ export default class ExampleController {
    *         content:
    *           application/json:
    *             schema:
-   *               $ref: '#/components/exampleResponse'
+   *               $ref: '#/components/skeletonResponse'
    *       404:
    *         $ref: '#/components/notFound'
    *       500:
@@ -90,14 +90,14 @@ export default class ExampleController {
   static async getOne (req: Request, res: Response) {
     try {
       const { id } = req.params
-      const example = await ExampleService.getOne(id)
+      const skeleton = await SkeletonService.getOne(id)
 
-      if (!example){
-        const error = notFound(`Example ${id}`)
+      if (!skeleton){
+        const error = notFound(`Skeleton ${id}`)
         return res.status(error.code).json(error)
       }
 
-      res.json(example)
+      res.json(skeleton)
     } catch (e) {
       internalServerError(e, req, res)
     }
@@ -105,10 +105,10 @@ export default class ExampleController {
 
   /**
    * @openapi
-   * /examples:
+   * /skeletons:
    *   get:
-   *     tags: ['examples']
-   *     summary: Get all examples
+   *     tags: ['skeletons']
+   *     summary: Get all skeletons
    *
    *     responses:
    *       200:
@@ -116,15 +116,15 @@ export default class ExampleController {
    *         content:
    *           application/json:
    *             schema:
-   *               $ref: '#/components/examplesResponse'
+   *               $ref: '#/components/skeletonsResponse'
    *       500:
    *         $ref: '#/components/internalServerError'
    */
   static async getAll (req: Request, res: Response) {
     try {
-      const examples = await ExampleService.getAll()
+      const skeletons = await SkeletonService.getAll()
 
-      res.json(examples)
+      res.json(skeletons)
     } catch (e) {
       internalServerError(e, req, res)
     }
@@ -132,10 +132,10 @@ export default class ExampleController {
 
   /**
    * @openapi
-   * /examples/{id}:
+   * /skeletons/{id}:
    *   put:
-   *     tags: ['examples']
-   *     summary: Update example
+   *     tags: ['skeletons']
+   *     summary: Update skeleton
    *     parameters:
    *       - in: path
    *         name: id
@@ -147,7 +147,7 @@ export default class ExampleController {
    *       content:
    *         application/json:
    *           schema:
-   *             $ref: '#/components/exampleRequest'
+   *             $ref: '#/components/skeletonRequest'
    *
    *     responses:
    *       200:
@@ -155,7 +155,7 @@ export default class ExampleController {
    *         content:
    *           application/json:
    *             schema:
-   *               $ref: '#/components/exampleResponse'
+   *               $ref: '#/components/skeletonResponse'
    *       404:
    *         $ref: '#/components/notFound'
    *       500:
@@ -165,14 +165,14 @@ export default class ExampleController {
     try {
       const { id } = req.params
       const { value } = req.body
-      const example = await ExampleService.update(id, { value })
+      const skeleton = await SkeletonService.update(id, { value })
 
-      if (!example){
-        const error = notFound(`Example ${id}`)
+      if (!skeleton){
+        const error = notFound(`Skeleton ${id}`)
         return res.status(error.code).json(error)
       }
 
-      res.json(example)
+      res.json(skeleton)
     } catch (e) {
       internalServerError(e, req, res)
     }
@@ -180,10 +180,10 @@ export default class ExampleController {
 
   /**
    * @openapi
-   * /examples/{id}:
+   * /skeletons/{id}:
    *   delete:
-   *     tags: ['examples']
-   *     summary: Delete example
+   *     tags: ['skeletons']
+   *     summary: Delete skeleton
    *     parameters:
    *       - in: path
    *         name: id
@@ -203,10 +203,10 @@ export default class ExampleController {
   static async delete (req: Request, res: Response) {
     try {
       const { id } = req.params
-      const result = await ExampleService.delete(id)
+      const result = await SkeletonService.delete(id)
 
       if (!result){
-        const error = notFound(`Example ${id}`)
+        const error = notFound(`Skeleton ${id}`)
         return res.status(error.code).json(error)
       }
 

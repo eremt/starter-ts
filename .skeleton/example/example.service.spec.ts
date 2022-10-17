@@ -1,41 +1,41 @@
-import ExampleService, { Example } from './example.service'
+import SkeletonService, { Skeleton } from './skeleton.service'
 
-describe('example.service', () => {
-  let resultGetAll: Example[]
+describe('skeleton.service', () => {
+  let resultGetAll: Skeleton[]
   let resultId: string
   let resultValue: string
 
   it('Is empty', async () => {
-    resultGetAll = await ExampleService.getAll()
+    resultGetAll = await SkeletonService.getAll()
     expect(resultGetAll.length).toBe(0)
   })
 
-  it('Creates example', async () => {
-    const resultCreate = await ExampleService.create({ value: 'An example' })
+  it('Creates skeleton', async () => {
+    const resultCreate = await SkeletonService.create({ value: 'An example' })
     expect(resultCreate.value).toBe('An example')
   })
 
   it('Is no longer empty', async () => {
-    resultGetAll = await ExampleService.getAll()
+    resultGetAll = await SkeletonService.getAll()
     resultId = resultGetAll[0].id
     resultValue = resultGetAll[0].value
     expect(resultGetAll.length).toBe(1)
   })
 
   it('Gets by ID', async () => {
-    let resultGetOne = await ExampleService.getOne(resultId)
+    let resultGetOne = await SkeletonService.getOne(resultId)
     expect(resultGetOne.value).toBe('An example')
   })
 
   it('Updates by ID', async () => {
-    const resultUpdate = await ExampleService.update(resultId, { value: 'An updated example' })
+    const resultUpdate = await SkeletonService.update(resultId, { value: 'An updated example' })
     expect(resultUpdate.value).toBe('An updated example')
   })
 
   it('Deletes by ID', async () => {
-    await ExampleService.delete(resultId)
+    await SkeletonService.delete(resultId)
 
-    resultGetAll = await ExampleService.getAll()
+    resultGetAll = await SkeletonService.getAll()
     expect(resultGetAll.length).toBe(0)
   })
 })
