@@ -1,6 +1,6 @@
 import { randomUUID } from 'crypto'
 
-interface Example {
+export interface Example {
   id?: string
   value: string
 }
