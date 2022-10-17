@@ -1,0 +1,13 @@
+services:
+  starter-ts:
+    container_name: starter-ts
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: base
+    env_file: .env
+    volumes:
+      - .:/app
+    ports:
+      - '${PORT}:${PORT}'
+    command: npm run dev

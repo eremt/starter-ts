@@ -7,6 +7,11 @@ Clone the repository:
 git clone https://github.com/eremt/starter-ts.git
 ```
 
+Copy `.env.example` to create `.env`:
+```
+cp .env.example .env
+```
+
 ### Generate endpoints
 The project includes a script to generate CRUD endpoints with tests and OpenAPI documentation.
 
@@ -34,8 +39,10 @@ router.use('/examples', exampleRoutes)
 ## Development
 Start the development environment:
 ```
-npm run dev
+docker compose up
 ```
+
+This will start the project on [localhost:5000](http://localhost:5000) with OpenAPI documentation available on [localhost:5000/docs](http://localhost:5000/docs).
 
 ## Test
 Run the tests:
