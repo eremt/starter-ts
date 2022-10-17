@@ -4,6 +4,7 @@
   "description": "TypeScript starter project",
   "main": "dist/index.js",
   "scripts": {
+    "generate": "./scripts/generate.sh",
     "build": "tsc",
     "dev": "nodemon src/server.ts",
     "start": "node dist/server.js",
