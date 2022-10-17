@@ -12,7 +12,7 @@ if [ -z $1 ]; then
 fi
 
 NAME=$1
-NAME_CAPITALIZED=${NAME^} # used to replace Example
+NAME_CAPITALIZED=${NAME^} # used to replace Skeleton
 
 DIR=src/$NAME
 
@@ -23,7 +23,7 @@ echo
 # Disable shellcheck rule since file names aren't going to contain spaces
 # shellcheck disable=2045
 for FILE in $(ls .skeleton/example); do
-  NEW_FILENAME=$(echo "$FILE" | sed "s|example|${NAME}|g")
+  NEW_FILENAME=$(echo "$FILE" | sed "s|skeleton|${NAME}|g")
   echo cp "$FILE" to "$DIR/$NEW_FILENAME"
   cp .skeleton/example/"$FILE" "$DIR/$NEW_FILENAME"
 done
