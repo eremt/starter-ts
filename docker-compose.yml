@@ -1,0 +1,12 @@
+services:
+  starter-ts:
+    container_name: starter-ts
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: base
+    volumes:
+      - .:/app
+    ports:
+      - '3000:3000'
+    command: npm run dev
