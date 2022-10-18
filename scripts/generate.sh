@@ -1,46 +1,47 @@
 #!/bin/bash
 #
-# Generate routes, controllers, and services with a given name
+# Generate routes, controllers, services and tests with a given name
 #
-# TODO:
-# - create help function
-# - import and mount src/$NAME/$NAME.routes.ts in src/routes.ts
 
-if [ -z $1 ]; then
-  echo "No arguments"
+help () {
+  echo "Usage: npm run generate [NAME]..."
+}
+
+if [ $# -eq 0 ]; then
+  # missing arguments
+  help
   exit 1
 fi
 
-NAME=$1
-NAME_CAPITALIZED=${NAME^} # used to replace Skeleton
+generate () {
+  NAME=$1
+  echo "Generating $NAME"
 
-DIR=src/$NAME
+  TARGET_DIR="./src/$NAME"
+  mkdir "$TARGET_DIR"
 
-echo mkdir "$DIR"
-mkdir "$DIR"
-echo
+  # shellcheck disable=2045
+  for FILE in $(ls .skeleton/example); do
+    # shellcheck disable=2001
+    FILENAME=$(echo "$FILE" | sed "s|skeleton|${NAME}|g")
 
-# Disable shellcheck rule since file names aren't going to contain spaces
-# shellcheck disable=2045
-for FILE in $(ls .skeleton/example); do
-  NEW_FILENAME=$(echo "$FILE" | sed "s|skeleton|${NAME}|g")
-  echo cp "$FILE" to "$DIR/$NEW_FILENAME"
-  cp .skeleton/example/"$FILE" "$DIR/$NEW_FILENAME"
+    # Replace [S/s]keleton with [N/n]ame and output to $FILENAME
+    sed "s|skeleton|${NAME}|g" ".skeleton/example/$FILE" | sed "s|Skeleton|${NAME^}|g" > "$TARGET_DIR/$FILENAME"
+  done
+
+  # import and mount routes in src/routes.ts
+  LINE_IMPORT="import ${NAME^}Routes from './$NAME/$NAME.routes'"
+  LINE_MOUNT="router.use('/${NAME}s',  ${NAME^}Routes)\n"
+  sed -i "$(wc -l < src/routes.ts)i $LINE_IMPORT" src/routes.ts
+  sed -i "$(wc -l < src/routes.ts)i $LINE_MOUNT" src/routes.ts
+
+  echo -e "Done\n"
+}
+
+for NAME in "$@"; do
+  generate "$NAME"
 done
-echo
 
-# shellcheck disable=2045
-for FILE in $(ls "$DIR"); do
-  echo Replace instances of Skeleton/skeleton in "$DIR/$FILE"
-  sed -i "s|skeleton|$NAME|g" "$DIR/$FILE"
-  sed -i "s|Skeleton|$NAME_CAPITALIZED|g" "$DIR/$FILE"
-done
-echo
+echo "Finished generating $*"
 
-echo "Importing and mounting routes in src/routes.ts"
-ROUTES="$(echo $NAME_CAPITALIZED)Routes"
-LINE_IMPORT="import $ROUTES from './$NAME/$NAME.routes'"
-LINE_MOUNT="router.use('/$(echo $NAME)s', $ROUTES)\n"
-
-sed -i "$(wc -l < src/routes.ts)i $LINE_IMPORT" src/routes.ts
-sed -i "$(wc -l < src/routes.ts)i $LINE_MOUNT" src/routes.ts
+exit 0
