@@ -15,7 +15,7 @@ cp .env.example .env
 ### Generate endpoints
 The project includes a script to generate CRUD endpoints with tests and OpenAPI documentation.
 
-To generate an endpoint run:
+To generate the files run:
 ```
 npm run generate example
 ```
@@ -35,6 +35,8 @@ And insert the following lines near the end of `/src/routes.ts`:
 import exampleRoutes from './example/example.routes'
 router.use('/examples', exampleRoutes)
 ```
+
+For more information see [/scripts/README](https://github.com/eremt/starter-ts/tree/master/scripts#generatesh)
 
 ## Development
 Start the development environment:

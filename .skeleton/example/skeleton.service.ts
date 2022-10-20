@@ -1,21 +1,21 @@
 import { randomUUID } from 'crypto'
 
-export interface Example {
+export interface Skeleton {
   id?: string
   value: string
 }
-interface Examples {
-  [key: string]: Example
+interface Skeletons {
+  [key: string]: Skeleton
 }
 
-const examples: Examples = {}
+const skeletons: Skeletons = {}
 
-export default class ExampleService {
-  static async create (example: Example) {
+export default class SkeletonService {
+  static async create (skeleton: Skeleton) {
     try {
       const id = randomUUID()
-      const result = { id, ...example }
-      examples[id] = result
+      const result = { id, ...skeleton }
+      skeletons[id] = result
 
       return result
     } catch (e) {
@@ -25,7 +25,7 @@ export default class ExampleService {
 
   static async getOne (id: string) {
     try {
-      const result = { ...examples[id] }
+      const result = { ...skeletons[id] }
       if (!Object.keys(result).length) return null
 
       return result
@@ -36,20 +36,20 @@ export default class ExampleService {
 
   static async getAll () {
     try {
-      const result = Object.values(examples)
+      const result = Object.values(skeletons)
       return result
     } catch (e) {
       console.log(e)
     }
   }
 
-  static async update (id: string, example: Example) {
+  static async update (id: string, skeleton: Skeleton) {
     try {
-      const result = { ...examples[id] }
+      const result = { ...skeletons[id] }
       if (!Object.keys(result).length) return null
 
-      const updated = { ...result, ...example }
-      examples[id] = { ...updated }
+      const updated = { ...result, ...skeleton }
+      skeletons[id] = { ...updated }
 
       return updated
     } catch (e) {
@@ -59,10 +59,10 @@ export default class ExampleService {
 
   static async delete (id: string) {
     try {
-      const result = { ...examples[id] }
+      const result = { ...skeletons[id] }
       if (!Object.keys(result).length) return null
 
-      delete examples[id]
+      delete skeletons[id]
       return true
     } catch (e) {
       console.log(e)
