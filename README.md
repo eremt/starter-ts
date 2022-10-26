@@ -12,6 +12,16 @@ Copy `.env.example` to create `.env`:
 cp .env.example .env
 ```
 
+Replace all instances of `starter-ts` with `your-project`:
+```
+sed -i 's/starter-ts/your-project/g' *.*
+```
+
+Install dependencies:
+```
+npm install
+```
+
 ### Generate endpoints
 The project includes a script to generate CRUD endpoints with tests and OpenAPI documentation.
 
